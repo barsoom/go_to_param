@@ -1,6 +1,8 @@
 # GoToParam
 
-Small set of Rails "go_to" redirection parameter utilities, e.g. to catch a desired path and redirect to it after logging in.
+Small set of Rails "go_to" redirection parameter utilities.
+
+E.g. to catch a desired path and redirect to it after logging in.
 
 ## Usage
 
@@ -13,6 +15,8 @@ end
 ```
 
 Now your controllers and views get some methods.
+
+All methods are made available in both controllers and views.
 
 ### build_go_to_hash
 
