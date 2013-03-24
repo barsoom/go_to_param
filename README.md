@@ -2,7 +2,7 @@
 
 Small set of Rails "go_to" redirection parameter utilities.
 
-E.g. to catch a desired path and redirect to it after logging in.
+E.g. to catch a requested path and redirect to it after logging in or signing up.
 
 ## Usage
 
