@@ -2,7 +2,7 @@ require "go_to_param/version"
 
 module GoToParam
   def self.included(klass)
-    klass.helper self
+    klass.helper(self) if klass.respond_to?(:helper)
   end
 
   def hidden_go_to_tag

@@ -22,6 +22,11 @@ describe GoToParam do
     FakeController.helpers.should include(GoToParam)
   end
 
+  it "can be included in a non-controller (e.g. a helpers module)" do
+    helpers = Module.new
+    helpers.send :include, GoToParam
+  end
+
   describe "#hidden_go_to_tag" do
     it "adds a hidden field tag" do
       controller.params = { go_to: "/example", id: "1" }
