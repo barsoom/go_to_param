@@ -63,21 +63,15 @@ describe GoToParam do
     end
   end
 
-  describe "#go_to_path_or" do
+  describe "#go_to_path" do
     it "is the go_to parameter value" do
       controller.params = { go_to: "/example", id: "1" }
-      controller.go_to_path_or("/default").should == "/example"
+      controller.go_to_path.should == "/example"
     end
 
-    it "falls back to the passed-in value without a parameter value" do
-      controller = FakeController.new
-      controller.params = { id: "1" }
-      controller.go_to_path_or("/default").should == "/default"
-    end
-
-    it "only allows relative paths" do
+    it "is nil if the parameter value is not a relative path" do
       controller.params = { go_to: "http://evil.com", id: "1" }
-      controller.go_to_path_or("/default").should == "/default"
+      controller.go_to_path.should be_nil
     end
   end
 end

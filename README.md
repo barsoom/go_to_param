@@ -63,17 +63,17 @@ You can pass in additional parameters for the given path:
 <%= link_to("Reset password", password_reset_path(go_to_param(email: @email))) %>
 ```
 
-### go_to_path_or
+### go_to_path
 
 Finally use the `go_to` parameter.
 
-You must pass in a fallback path.
+You probably want to provide a fallback path:
 
 ``` ruby
 class SessionsController < ActionController::Base
   def create
     if logged_in?
-      redirect_to go_to_path_or(root_path)
+      redirect_to(go_to_path || root_path)
     end
   end
 end
