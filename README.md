@@ -10,7 +10,7 @@ Include in some suitable base controller:
 
 ``` ruby
 class ApplicationController < ActionController::Base
-  include GoToParameter
+  include GoToParam
 end
 ```
 
