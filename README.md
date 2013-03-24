@@ -79,6 +79,15 @@ class SessionsController < ActionController::Base
 end
 ```
 
+### go_to_path_or
+
+Syntactic sugar. These are equivalent:
+
+``` ruby
+redirect_to(go_to_path || root_path)
+redirect_to go_to_path_or(root_path)
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:

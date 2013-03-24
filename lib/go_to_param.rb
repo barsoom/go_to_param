@@ -30,6 +30,10 @@ module GoToParam
     end
   end
 
+  def go_to_path_or(default)
+    go_to_path || default
+  end
+
   private
 
   def go_to_param_value
