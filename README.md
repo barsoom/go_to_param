@@ -90,7 +90,7 @@ class SessionsController < ActionController::Base
 end
 ```
 
-Returns nil if the parameter value is not a relative path, to avoid phishing attempts like `/login?go_to=http://evil.com/success_now_give_me_your_cc_details`.
+Returns nil if the parameter value is not a relative path, to counter phishing attempts like `/login?go_to=http://evil.com/success_now_give_me_your_cc_details`.
 
 ### go_to_path_or
 
