@@ -33,33 +33,33 @@ describe GoToParam do
     end
   end
 
-  describe "#go_to_param" do
+  describe "#go_to_hash" do
     it "makes it a helper method" do
-      FakeController.helper_methods.should include :go_to_param
+      FakeController.helper_methods.should include :go_to_hash
     end
 
     it "includes the go_to parameter" do
       controller.params = { go_to: "/example", id: "1" }
 
-      controller.go_to_param.should == { go_to: "/example" }
+      controller.go_to_hash.should == { go_to: "/example" }
     end
 
     it "accepts additional parameters" do
       controller.params = { go_to: "/example", id: "1" }
 
-      controller.go_to_param(a: "b").should == { go_to: "/example", a: "b" }
+      controller.go_to_hash(a: "b").should == { go_to: "/example", a: "b" }
     end
   end
 
-  describe "#get_go_to_param" do
+  describe "#build_go_to_hash" do
     it "gets the request path as the go_to parameter" do
       controller.request = double(get?: true, fullpath: "/example")
-      controller.get_go_to_param.should == { go_to: "/example" }
+      controller.build_go_to_hash.should == { go_to: "/example" }
     end
 
     it "returns an empty hash for a non-GET request" do
       controller.request = double(get?: false, fullpath: "/example")
-      controller.get_go_to_param.should == {}
+      controller.build_go_to_hash.should == {}
     end
   end
 

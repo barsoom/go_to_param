@@ -14,7 +14,7 @@ end
 
 Now your controllers and views get some methods.
 
-### get_go_to_param
+### build_go_to_hash
 
 Put the current/requested path in a `?go_to=` parameter.
 
@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_authenticated
     unless authenticated?
-      redirect_to login_path(get_go_to_param)
+      redirect_to login_path(build_go_to_hash)
     end
   end
 end
@@ -49,18 +49,18 @@ Pass the `go_to` parameter along with a form.
 </form>
 ```
 
-### go_to_param
+### go_to_hash
 
 Pass the `go_to` parameter along with a link.
 
 ``` erb
-<%= link_to("Reset password", password_reset_path(go_to_param)) %>
+<%= link_to("Reset password", password_reset_path(go_to_hash)) %>
 ```
 
 You can pass in additional parameters for the given path:
 
 ``` erb
-<%= link_to("Reset password", password_reset_path(go_to_param(email: @email))) %>
+<%= link_to("Reset password", password_reset_path(go_to_hash(email: @email))) %>
 ```
 
 ### go_to_path
