@@ -16,7 +16,7 @@ end
 
 Now your controllers and views get some methods.
 
-### build_go_to_hash
+### go_to_here_params
 
 Put the current/requested path in a `{ go_to: "/the_path" }` parameter hash.
 
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_authenticated
     unless authenticated?
-      redirect_to login_path(build_go_to_hash)
+      redirect_to login_path(go_to_here_params)
     end
   end
 end
@@ -42,7 +42,7 @@ Or a view:
 
 ``` erb
 <h1>Show item</h1>
-<%= link_to("Edit item", edit_item_path(@item, build_go_to_hash))
+<%= link_to("Edit item", edit_item_path(@item, go_to_here_params))
 ```
 
 This only picks up the requested path if it's a GET, since we can't redirect back to a non-GET later. Otherwise an empty hash is returned.
@@ -60,18 +60,18 @@ Pass the `go_to` parameter along with a form.
 </form>
 ```
 
-### go_to_hash
+### go_to_params
 
 Pass the `go_to` parameter along with a link.
 
 ``` erb
-<%= link_to("Reset password", password_reset_path(go_to_hash)) %>
+<%= link_to("Reset password", password_reset_path(go_to_params)) %>
 ```
 
 You can pass in additional parameters for the given path:
 
 ``` erb
-<%= link_to("Reset password", password_reset_path(go_to_hash(email: @email))) %>
+<%= link_to("Reset password", password_reset_path(go_to_params(email: @email))) %>
 ```
 
 ### go_to_path
