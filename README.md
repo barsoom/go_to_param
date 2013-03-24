@@ -42,7 +42,7 @@ Or a view:
 
 ``` erb
 <h1>Show item</h1>
-<%= link_to("Edit item", edit_item_path(@item, go_to_here_params))
+<%= link_to("Edit item", edit_item_path(@item, go_to_here_params)) %>
 ```
 
 This only picks up the requested path if it's a GET, since we can't redirect back to a non-GET later. Otherwise an empty hash is returned.
