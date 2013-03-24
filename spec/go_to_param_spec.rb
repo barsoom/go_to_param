@@ -3,13 +3,12 @@ require_relative "../lib/go_to_param"
 class FakeController
   attr_accessor :params, :view_context, :request
 
-  def self.helper(mod)
-    @helpers ||= []
-    @helpers << mod
+  def self.helper_method(*methods)
+    @helper_methods = methods
   end
 
-  def self.helpers
-    @helpers
+  def self.helper_methods
+    @helper_methods
   end
 
   include GoToParam
@@ -18,16 +17,11 @@ end
 describe GoToParam do
   let(:controller) { FakeController.new }
 
-  it "makes itself a helper module" do
-    FakeController.helpers.should include(GoToParam)
-  end
-
-  it "can be included in a non-controller (e.g. a helpers module)" do
-    helpers = Module.new
-    helpers.send :include, GoToParam
-  end
-
   describe "#hidden_go_to_tag" do
+    it "becomes a helper method" do
+      FakeController.helper_methods.should include :hidden_go_to_tag
+    end
+
     it "adds a hidden field tag" do
       controller.params = { go_to: "/example", id: "1" }
       view = double
@@ -40,6 +34,10 @@ describe GoToParam do
   end
 
   describe "#go_to_hash" do
+    it "becomes a helper method" do
+      FakeController.helper_methods.should include :go_to_hash
+    end
+
     it "includes the go_to parameter" do
       controller.params = { go_to: "/example", id: "1" }
 
@@ -54,6 +52,10 @@ describe GoToParam do
   end
 
   describe "#build_go_to_hash" do
+    it "becomes a helper method" do
+      FakeController.helper_methods.should include :build_go_to_hash
+    end
+
     it "gets the request path as the go_to parameter" do
       controller.request = double(get?: true, fullpath: "/example")
       controller.build_go_to_hash.should == { go_to: "/example" }

@@ -16,8 +16,6 @@ end
 
 Now your controllers and views get some methods.
 
-All methods are made available in both controllers and views.
-
 ### build_go_to_hash
 
 Put the current/requested path in a `?go_to=` parameter.
