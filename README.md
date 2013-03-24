@@ -18,7 +18,9 @@ Now your controllers and views get some methods.
 
 ### build_go_to_hash
 
-Put the current/requested path in a `?go_to=` parameter.
+Put the current/requested path in a `{ go_to: "/the_path" }` parameter hash.
+
+Perhaps from a controller:
 
 ``` ruby
 class ApplicationController < ActionController::Base
@@ -36,7 +38,14 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-Only picks up the requested path if it's a GET, since we can't redirect back to a non-GET later.
+Or a view:
+
+``` erb
+<h1>Show item</h1>
+<%= link_to("Edit item", edit_item_path(@item, build_go_to_hash))
+```
+
+This only picks up the requested path if it's a GET, since we can't redirect back to a non-GET later. Otherwise an empty hash is returned.
 
 ### hidden_go_to_tag
 
