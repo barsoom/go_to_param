@@ -68,6 +68,10 @@ describe GoToParam do
   end
 
   describe "#go_to_path" do
+    it "becomes a helper method" do
+      FakeController.helper_methods.should include :go_to_path
+    end
+
     it "is the go_to parameter value" do
       controller.params = { go_to: "/example", id: "1" }
       controller.go_to_path.should == "/example"
@@ -80,6 +84,10 @@ describe GoToParam do
   end
 
   describe "#go_to_path_or" do
+    it "becomes a helper method" do
+      FakeController.helper_methods.should include :go_to_path_or
+    end
+
     it "is the go_to parameter value" do
       controller.params = { go_to: "/example", id: "1" }
       controller.go_to_path_or("/default").should == "/example"

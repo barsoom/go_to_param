@@ -3,7 +3,8 @@ require "go_to_param/version"
 module GoToParam
   def self.included(klass)
     klass.helper_method :hidden_go_to_tag,
-      :go_to_hash, :build_go_to_hash
+      :go_to_hash, :build_go_to_hash,
+      :go_to_path, :go_to_path_or
   end
 
   def hidden_go_to_tag
