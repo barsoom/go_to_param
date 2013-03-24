@@ -32,7 +32,7 @@ module GoToParam
 
   private
 
-  def raw_go_to_param_value
+  def go_to_param_value
     params[:go_to]
   end
 end
