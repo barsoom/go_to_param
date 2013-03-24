@@ -23,8 +23,8 @@ module GoToParam
 
   def go_to_path
     # Avoid phishing redirects.
-    if raw_go_to_param_value.to_s.start_with?("/")
-      raw_go_to_param_value
+    if go_to_param_value.to_s.start_with?("/")
+      go_to_param_value
     else
       nil
     end
