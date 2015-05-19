@@ -19,7 +19,7 @@ describe GoToParam do
 
   describe "#hidden_go_to_tag" do
     it "becomes a helper method" do
-      FakeController.helper_methods.should include :hidden_go_to_tag
+      expect(FakeController.helper_methods).to include :hidden_go_to_tag
     end
 
     it "adds a hidden field tag" do
@@ -27,75 +27,74 @@ describe GoToParam do
       view = double
       controller.view_context = view
 
-      view.should_receive(:hidden_field_tag).
-        with(:go_to, "/example")
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example")
       controller.hidden_go_to_tag
     end
   end
 
   describe "#go_to_params" do
     it "becomes a helper method" do
-      FakeController.helper_methods.should include :go_to_params
+      expect(FakeController.helper_methods).to include :go_to_params
     end
 
     it "includes the go_to parameter" do
       controller.params = { go_to: "/example", id: "1" }
 
-      controller.go_to_params.should == { go_to: "/example" }
+      expect(controller.go_to_params).to eq({ go_to: "/example" })
     end
 
     it "accepts additional parameters" do
       controller.params = { go_to: "/example", id: "1" }
 
-      controller.go_to_params(a: "b").should == { go_to: "/example", a: "b" }
+      expect(controller.go_to_params(a: "b")).to eq({ go_to: "/example", a: "b" })
     end
   end
 
   describe "#go_to_here_params" do
     it "becomes a helper method" do
-      FakeController.helper_methods.should include :go_to_here_params
+      expect(FakeController.helper_methods).to include :go_to_here_params
     end
 
     it "gets the request path as the go_to parameter" do
       controller.request = double(get?: true, fullpath: "/example")
-      controller.go_to_here_params.should == { go_to: "/example" }
+      expect(controller.go_to_here_params).to eq({ go_to: "/example" })
     end
 
     it "returns an empty hash for a non-GET request" do
       controller.request = double(get?: false, fullpath: "/example")
-      controller.go_to_here_params.should == {}
+      expect(controller.go_to_here_params).to eq({})
     end
   end
 
   describe "#go_to_path" do
     it "becomes a helper method" do
-      FakeController.helper_methods.should include :go_to_path
+      expect(FakeController.helper_methods).to include :go_to_path
     end
 
     it "is the go_to parameter value" do
       controller.params = { go_to: "/example", id: "1" }
-      controller.go_to_path.should == "/example"
+      expect(controller.go_to_path).to eq("/example")
     end
 
     it "is nil if the parameter value is not a relative path" do
       controller.params = { go_to: "http://evil.com", id: "1" }
-      controller.go_to_path.should be_nil
+      expect(controller.go_to_path).to be_nil
     end
   end
 
   describe "#go_to_path_or" do
     it "becomes a helper method" do
-      FakeController.helper_methods.should include :go_to_path_or
+      expect(FakeController.helper_methods).to include :go_to_path_or
     end
 
     it "is the go_to parameter value" do
       controller.params = { go_to: "/example", id: "1" }
-      controller.go_to_path_or("/default").should == "/example"
+      expect(controller.go_to_path_or("/default")).to eq("/example")
     end
 
     it "is the passed-in value if the parameter value is not a relative path" do
       controller.params = { go_to: "http://evil.com", id: "1" }
-      controller.go_to_path_or("/default").should == "/default"
+      expect(controller.go_to_path_or("/default")).to eq("/default")
     end
   end
 end
