@@ -64,6 +64,16 @@ describe GoToParam do
       controller.request = double(get?: false, fullpath: "/example")
       expect(controller.go_to_here_params).to eq({})
     end
+
+    it "accepts additional query parameters" do
+      controller.request = double(get?: true, fullpath: "/example")
+      expect(controller.go_to_here_params(foo: "1 2", bar: 3)).to eq({ go_to: "/example?foo=1+2&bar=3" })
+
+      # Handles pre-existing "?"
+      controller.request = double(get?: true, fullpath: "/example?foo")
+      expect(controller.go_to_here_params(bar: 3)).to eq({ go_to: "/example?foo&bar=3" })
+    end
+
   end
 
   describe "#go_to_path" do

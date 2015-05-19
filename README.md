@@ -47,6 +47,15 @@ Or a view:
 
 This only picks up the requested path if it's a GET, since we can't redirect back to a non-GET later. Otherwise an empty hash is returned.
 
+You can pass additional query parameters to include, which could be suitable if you want to trigger some action after redirecting:
+
+``` erb
+<%= link_to("Add item after logging in", login_path(@item, go_to_here_params(perform_action: "add"))) %>
+```
+
+Note that these parameters always become transformed into a query string: if you're using Ruby on Rails, they won't be interpreted through your route definitions.
+
+
 ### hidden_go_to_tag
 
 Pass the `go_to` parameter along with a form.

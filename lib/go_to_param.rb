@@ -1,3 +1,4 @@
+require "cgi"
 require "go_to_param/version"
 
 module GoToParam
@@ -15,9 +16,10 @@ module GoToParam
     { go_to: go_to_path }.merge(other_params)
   end
 
-  def go_to_here_params
+  def go_to_here_params(additional_query_params = {})
     if request.get?
-      { go_to: request.fullpath }
+      path = _go_to_add_query_string_from_hash(request.fullpath, additional_query_params)
+      { go_to: path }
     else
       {}
     end
@@ -40,5 +42,16 @@ module GoToParam
 
   def go_to_param_value
     params[:go_to]
+  end
+
+  # Named this way to avoid conflicts. TODO: http://thepugautomatic.com/2014/02/private-api/
+  def _go_to_add_query_string_from_hash(path, hash)
+    if hash.empty?
+      path
+    else
+      separator = path.include?("?") ? "&" : "?"
+      query_string = hash.map { |k, v| "#{k}=#{CGI.escape v.to_s}" }.join("&")
+      [ path, separator, query_string ].join
+    end
   end
 end
