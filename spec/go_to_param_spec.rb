@@ -32,6 +32,31 @@ describe GoToParam do
     end
   end
 
+  describe "#hidden_go_to_here_tag" do
+    it "becomes a helper method" do
+      expect(FakeController.helper_methods).to include :hidden_go_to_here_tag
+    end
+
+    it "adds a hidden field tag" do
+      controller.request = double(get?: true, fullpath: "/example")
+      view = double
+      controller.view_context = view
+
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example")
+      controller.hidden_go_to_here_tag
+    end
+
+    # Tested in more detail in #go_to_here_params.
+    it "accepts additional query parameters" do
+      controller.request = double(get?: true, fullpath: "/example?a=1")
+      view = double
+      controller.view_context = view
+
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example?a=1&b=1+2")
+      controller.hidden_go_to_here_tag(b: "1 2")
+    end
+  end
+
   describe "#go_to_params" do
     it "becomes a helper method" do
       expect(FakeController.helper_methods).to include :go_to_params

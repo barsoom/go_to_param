@@ -58,7 +58,7 @@ Note that these parameters always become transformed into a query string: if you
 
 ### hidden_go_to_tag
 
-Pass the `go_to` parameter along with a form.
+Pass the current `go_to` query parameter along with a form. Suitable e.g. if you're redirected from a restricted page to the login form.
 
 ``` erb
 <h1>Log in</h1>
@@ -68,6 +68,21 @@ Pass the `go_to` parameter along with a form.
   …
 </form>
 ```
+
+### hidden_go_to_here_tag
+
+Pass the current/requested path as a `go_to` parameter along with a form. Suitable e.g. if you show a login form in a modal.
+
+``` erb
+<h1>Log in</h1>
+
+<form>
+  <%= hidden_go_to_here_tag %>
+  …
+</form>
+```
+
+Accepts additional query parameters just like [`go_to_here_params`](#go_to_here_params).
 
 ### go_to_params
 
