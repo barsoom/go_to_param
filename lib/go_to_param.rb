@@ -47,7 +47,7 @@ module GoToParam
 
   def go_to_here_path(additional_query_params = {})
     if request.get?
-      _go_to_add_query_string_from_hash(request.fullpath, additional_query_params)
+      _go_to_add_query_string_from_hash(_utf8_request_full_path, additional_query_params)
     else
       nil
     end
@@ -66,5 +66,12 @@ module GoToParam
       query_string = hash.map { |k, v| "#{k}=#{CGI.escape v.to_s}" }.join("&")
       [ path, separator, query_string ].join
     end
+  end
+
+  # Prevent encoding errors (incompatible character encodings: UTF-8 and ASCII-8BIT...)
+  # Inspired on https://github.com/discourse/discourse/commit/090dc80f8a23dbb3ad703efbac990aa917c06505
+  def _utf8_request_full_path
+    path = request.fullpath
+    path.dup.force_encoding("UTF-8").scrub
   end
 end
