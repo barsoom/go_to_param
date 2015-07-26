@@ -99,17 +99,16 @@ describe GoToParam do
       expect(controller.go_to_here_params(bar: 3)).to eq({ go_to: "/example?foo&bar=3" })
     end
 
-    it "makes sure the request path to go to is a valid utf8 string" do
-      weird_path = "\xE0\x80\x80"
-      weird_path.force_encoding("ASCII-8BIT")
-      weird_path << "weird\330stuff".force_encoding("ASCII-8BIT")
-
-      replacement = "\uFFFD"
+    it "makes sure the go_to path is valid UTF-8" do
+      weird_path = "\xE0\x80\x80weird\330stuff".force_encoding("ASCII-8BIT")
+      replacement = "\uFFFD"  # The Unicode 'Replacement Character'
 
       controller.request = double(get?: true, fullpath: weird_path)
 
-      expect(controller.go_to_here_params[:go_to].encoding).to eq(Encoding::UTF_8)
-      expect(controller.go_to_here_params).to eq(go_to: "#{replacement}#{replacement}#{replacement}weird#{replacement}stuff")
+      go_to_value = controller.go_to_here_params[:go_to]
+
+      expect(go_to_value.encoding).to eq(Encoding::UTF_8)
+      expect(go_to_value).to eq("#{replacement}#{replacement}#{replacement}weird#{replacement}stuff")
     end
   end
 

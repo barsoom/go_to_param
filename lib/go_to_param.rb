@@ -47,7 +47,7 @@ module GoToParam
 
   def go_to_here_path(additional_query_params = {})
     if request.get?
-      _go_to_add_query_string_from_hash(_utf8_request_full_path, additional_query_params)
+      _go_to_add_query_string_from_hash(_go_to_fullpath, additional_query_params)
     else
       nil
     end
@@ -68,9 +68,9 @@ module GoToParam
     end
   end
 
-  # Prevent encoding errors (incompatible character encodings: UTF-8 and ASCII-8BIT...)
-  # Inspired on https://github.com/discourse/discourse/commit/090dc80f8a23dbb3ad703efbac990aa917c06505
-  def _utf8_request_full_path
+  # Prevent encoding errors ("incompatible character encodings: UTF-8 and ASCII-8BIT") for certain malformed requests.
+  # Inspired by https://github.com/discourse/discourse/commit/090dc80f8a23dbb3ad703efbac990aa917c06505
+  def _go_to_fullpath
     path = request.fullpath
     path.dup.force_encoding("UTF-8").scrub
   end
