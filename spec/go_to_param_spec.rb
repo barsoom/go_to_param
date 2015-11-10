@@ -30,6 +30,15 @@ describe GoToParam do
       expect(view).to receive(:hidden_field_tag).with(:go_to, "/example")
       controller.hidden_go_to_tag
     end
+
+    it "passes along the whitelist to the go to param" do
+      controller.params = { go_to: "http://evil.com/do", id: "1" }
+      view = double
+      controller.view_context = view
+
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "http://evil.com/do")
+      controller.hidden_go_to_tag(whitelist: [ "http://" ])
+    end
   end
 
   describe "#hidden_go_to_here_tag" do
@@ -72,6 +81,12 @@ describe GoToParam do
       controller.params = { go_to: "/example", id: "1" }
 
       expect(controller.go_to_params(a: "b")).to eq({ go_to: "/example", a: "b" })
+    end
+
+    it "passes along a whitelist option" do
+      controller.params = { go_to: "http://evil.com/do", id: "1" }
+
+      expect(controller.go_to_params(a: "b", whitelist: ["http://"])).to eq({ go_to: "http://evil.com/do", a: "b" })
     end
   end
 
@@ -126,6 +141,11 @@ describe GoToParam do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path).to be_nil
     end
+
+    it "is still the go_to parameter if it gets a matching passed whitelist protocol" do
+      controller.params = { go_to: "http://evil.com", id: "1" }
+      expect(controller.go_to_path(whitelist: ["http://"])).to eq("http://evil.com")
+    end
   end
 
   describe "#go_to_path_or" do
@@ -141,6 +161,11 @@ describe GoToParam do
     it "is the passed-in value if the parameter value is not a relative path" do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path_or("/default")).to eq("/default")
+    end
+
+    it "is still the go_to parameter if it gets a matching passed whitelist protocol" do
+      controller.params = { go_to: "http://evil.com", id: "1" }
+      expect(controller.go_to_path_or("/default", whitelist: ["http://"])).to eq("http://evil.com")
     end
   end
 end

@@ -8,8 +8,8 @@ module GoToParam
       :go_to_path, :go_to_path_or
   end
 
-  def hidden_go_to_tag
-    view_context.hidden_field_tag :go_to, go_to_path
+  def hidden_go_to_tag(whitelist: [])
+    view_context.hidden_field_tag :go_to, go_to_path(whitelist: whitelist)
   end
 
   def hidden_go_to_here_tag(additional_query_params = {})
@@ -17,7 +17,8 @@ module GoToParam
   end
 
   def go_to_params(other_params = {})
-    { go_to: go_to_path }.merge(other_params)
+    whitelist = other_params.delete(:whitelist) || []
+    { go_to: go_to_path(whitelist: whitelist) }.merge(other_params)
   end
 
   def go_to_here_params(additional_query_params = {})
@@ -30,20 +31,28 @@ module GoToParam
     end
   end
 
-  def go_to_path
+  def go_to_path(whitelist: [])
     # Avoid phishing redirects.
-    if go_to_param_value.to_s.start_with?("/")
+    if matches_whitelist?(whitelist) || go_to_param_value.to_s.start_with?("/")
       go_to_param_value
     else
       nil
     end
   end
 
-  def go_to_path_or(default)
-    go_to_path || default
+  def go_to_path_or(default, whitelist: [])
+    go_to_path(whitelist: whitelist) || default
   end
 
   private
+
+  def matches_whitelist?(whitelist)
+    if !whitelist.empty?
+      whitelist.any? { |safe_protocol| go_to_param_value.match(/^#{safe_protocol}/) }
+    else
+      false
+    end
+  end
 
   def go_to_here_path(additional_query_params = {})
     if request.get?
