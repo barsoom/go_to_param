@@ -127,6 +127,11 @@ describe GoToParam do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path).to be_nil
     end
+
+    it "is still the go_to parameter if it gets a matching passed whitelist protocol" do
+      controller.params = { go_to: "http://evil.com", id: "1" }
+      expect(controller.go_to_path(whitelist: ["http://"])).to eq("http://evil.com")
+    end
   end
 
   describe "#go_to_path_or" do
@@ -142,6 +147,11 @@ describe GoToParam do
     it "is the passed-in value if the parameter value is not a relative path" do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path_or("/default")).to eq("/default")
+    end
+
+    it "is still the go_to parameter if it gets a matching passed whitelist protocol" do
+      controller.params = { go_to: "http://evil.com", id: "1" }
+      expect(controller.go_to_path_or("/default", whitelist: ["http://"])).to eq("http://evil.com")
     end
   end
 end

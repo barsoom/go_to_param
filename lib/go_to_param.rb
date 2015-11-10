@@ -30,20 +30,28 @@ module GoToParam
     end
   end
 
-  def go_to_path
+  def go_to_path(whitelist: [])
     # Avoid phishing redirects.
-    if go_to_param_value.to_s.start_with?("/")
+    if matches_whitelist?(whitelist) || go_to_param_value.to_s.start_with?("/")
       go_to_param_value
     else
       nil
     end
   end
 
-  def go_to_path_or(default)
-    go_to_path || default
+  def go_to_path_or(default, whitelist: [])
+    go_to_path(whitelist: whitelist) || default
   end
 
   private
+
+  def matches_whitelist?(whitelist)
+    if !whitelist.empty?
+      whitelist.any? { |safe_protocol| go_to_param_value.match(/^#{safe_protocol}/) }
+    else
+      false
+    end
+  end
 
   def go_to_here_path(additional_query_params = {})
     if request.get?
