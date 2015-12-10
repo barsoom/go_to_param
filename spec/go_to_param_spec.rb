@@ -15,6 +15,8 @@ class FakeController
 end
 
 describe GoToParam do
+  after { GoToParam.reset_allowed_redirect_prefixes }
+
   let(:controller) { FakeController.new }
 
   describe "#hidden_go_to_tag" do
@@ -126,6 +128,13 @@ describe GoToParam do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path).to be_nil
     end
+
+    it "respects custom allowed redirect prefixes" do
+      GoToParam.allow_redirect_prefix("myapp://")
+
+      controller.params = { go_to: "myapp://", id: "1" }
+      expect(controller.go_to_path).to eq("myapp://")
+    end
   end
 
   describe "#go_to_path_or" do
@@ -141,16 +150,6 @@ describe GoToParam do
     it "is the passed-in value if the parameter value is not a relative path" do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path_or("/default")).to eq("/default")
-    end
-  end
-
-  describe "providing additional allowed redirect prefixes" do
-    it "accepts setting additional allowed redirect prefixes, like an ios app protocol prefix" do
-      # This changes the class variable, and leaks to the other tests, but it does not interfere with any other spec.
-      GoToParam.add_to_allowed_redirect_prefixes("myapp://")
-
-      controller.params = { go_to: "myapp://", id: "1" }
-      expect(controller.go_to_path).to eq("myapp://")
     end
   end
 end

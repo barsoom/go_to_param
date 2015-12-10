@@ -116,6 +116,12 @@ end
 
 Returns nil if the parameter value is not a relative path, to counter phishing attempts like `/login?go_to=http://evil.com/success_now_give_me_your_cc_details`.
 
+If you need to allow some external URLs, that can be configured. You could do this in e.g. a `config/initializers/go_to.rb` file:
+
+``` ruby
+GoToParam.allow_redirect_prefix("myapp://")
+```
+
 ### go_to_path_or
 
 Syntactic sugar. These are equivalent:
@@ -139,14 +145,6 @@ Or install it yourself as:
 
     $ gem install go_to_param
 
-## Configuration
-
-If you need to redirect out of your web application, like to a ios app using a protocol, you can configure go_to_param to allow
-this. Just set the allowed prefix in an initializer:
-
-```ruby
-GoToParam.add_to_allowed_redirect_prefixes("myapp://")
-```
 
 ## License
 

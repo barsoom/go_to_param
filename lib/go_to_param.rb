@@ -2,12 +2,18 @@ require "cgi"
 require "go_to_param/version"
 
 module GoToParam
-  def self.add_to_allowed_redirect_prefixes(prefix)
+  def self.allow_redirect_prefix(prefix)
     allowed_redirect_prefixes << prefix
   end
 
   def self.allowed_redirect_prefixes
-    @allowed_redirect_prefixes ||= [ "/" ]
+    reset_allowed_redirect_prefixes unless @allowed_redirect_prefixes
+    @allowed_redirect_prefixes
+  end
+
+  # Mostly for tests…
+  def self.reset_allowed_redirect_prefixes
+    @allowed_redirect_prefixes = [ "/" ]
   end
 
   def self.included(klass)
@@ -25,7 +31,7 @@ module GoToParam
   end
 
   def go_to_params(other_params = {})
-    { go_to: go_to_path}.merge(other_params)
+    { go_to: go_to_path }.merge(other_params)
   end
 
   def go_to_here_params(additional_query_params = {})
@@ -40,6 +46,7 @@ module GoToParam
 
   def go_to_path
     return nil if go_to_param_value.nil?
+
     # Avoid phishing redirects.
     if matches_allowed_redirect_prefixes?
       go_to_param_value
