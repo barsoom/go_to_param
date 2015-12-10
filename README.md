@@ -114,7 +114,7 @@ class SessionsController < ActionController::Base
 end
 ```
 
-Returns nil if the parameter value is not a relative path, to counter phishing attempts like `/login?go_to=http://evil.com/success_now_give_me_your_cc_details`.
+Returns `nil` if the parameter value is not a relative path, to counter phishing attempts like `/login?go_to=http://evil.com/success_now_give_me_your_cc_details`.
 
 If you need to allow some external URLs, that can be configured. You could do this in e.g. a `config/initializers/go_to.rb` file:
 

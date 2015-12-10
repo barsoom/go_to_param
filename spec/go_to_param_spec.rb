@@ -147,7 +147,12 @@ describe GoToParam do
       expect(controller.go_to_path_or("/default")).to eq("/example")
     end
 
-    it "is the passed-in value if the parameter value is not a relative path" do
+    it "falls back if the go_to param is blank" do
+      controller.params = { go_to: "", id: "1" }
+      expect(controller.go_to_path_or("/default")).to eq("/default")
+    end
+
+    it "falls back if the go_to param is not allowed" do
       controller.params = { go_to: "http://evil.com", id: "1" }
       expect(controller.go_to_path_or("/default")).to eq("/default")
     end
