@@ -143,4 +143,14 @@ describe GoToParam do
       expect(controller.go_to_path_or("/default")).to eq("/default")
     end
   end
+
+  describe "providing additional allowed redirect prefixes" do
+    it "accepts setting additional allowed redirect prefixes, like an ios app protocol prefix" do
+      # This changes the class variable, and leaks to the other tests, but it does not interfere with any other spec.
+      GoToParam.add_to_allowed_redirect_prefixes("myapp://")
+
+      controller.params = { go_to: "myapp://", id: "1" }
+      expect(controller.go_to_path).to eq("myapp://")
+    end
+  end
 end
