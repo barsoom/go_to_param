@@ -101,6 +101,11 @@ describe GoToParam do
       expect(controller.go_to_here_params(bar: 3)).to eq({ go_to: "/example?foo&bar=3" })
     end
 
+    it "accepts an anchor parameter" do
+      controller.request = double(get?: true, fullpath: "/example")
+      expect(controller.go_to_here_params(foo: "foo", anchor: "bar")).to eq({ go_to: "/example?foo=foo#bar" })
+    end
+
     it "makes sure the go_to path is valid UTF-8" do
       weird_path = "\xE0\x80\x80weird\330stuff".force_encoding("ASCII-8BIT")
       replacement = "\uFFFD"  # The Unicode "Replacement Character".

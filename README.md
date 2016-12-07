@@ -55,6 +55,8 @@ You can pass additional query parameters to include, which could be suitable if 
 
 Note that these parameters always become transformed into a query string: if you're using Ruby on Rails, they won't be interpreted through your route definitions.
 
+You can, however, pass a Rails-style `anchor: "foo"` parameter to set the URL fragment (`/example#foo`).
+
 
 ### hidden_go_to_tag
 

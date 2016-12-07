@@ -65,9 +65,10 @@ module GoToParam
     GoToParam.allowed_redirect_prefixes.any? { |prefix| go_to_param_value.start_with?(prefix) }
   end
 
-  def go_to_here_path(additional_query_params = {})
+  def go_to_here_path(anchor: nil, **additional_query_params)
     if request.get?
-      _go_to_add_query_string_from_hash(_go_to_fullpath, additional_query_params)
+      path_without_anchor = _go_to_add_query_string_from_hash(_go_to_fullpath, additional_query_params)
+      anchor ? path_without_anchor + "#" + anchor : path_without_anchor
     else
       nil
     end
