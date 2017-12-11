@@ -75,7 +75,9 @@ module GoToParam
   end
 
   def go_to_param_value
-    params[:go_to]
+    # We use `to_s` to avoid "not a string" type errors from hack attempts where a hash is passed, e.g. "go_to[foo]=bar".
+    value = params[:go_to].to_s
+    value == "" ? nil : value
   end
 
   # Named this way to avoid conflicts. TODO: http://thepugautomatic.com/2014/02/private-api/

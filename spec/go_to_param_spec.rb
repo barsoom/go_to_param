@@ -134,6 +134,11 @@ describe GoToParam do
       expect(controller.go_to_path).to be_nil
     end
 
+    it "is nil when given a hash" do
+      controller.params = { go_to: { evil: "true" }, id: "1" }
+      expect(controller.go_to_path).to be_nil
+    end
+
     it "respects custom allowed redirect prefixes" do
       GoToParam.allow_redirect_prefix("myapp://")
 
