@@ -1,27 +1,29 @@
 require_relative "../lib/go_to_param"
 
-class FakeController
-  attr_accessor :params, :view_context, :request
-
-  def self.helper_method(*methods)
-    @helper_methods = methods
-  end
-
-  def self.helper_methods
-    @helper_methods
-  end
-
-  include GoToParam
-end
-
 describe GoToParam do
+  let(:controller_klass) do
+    Class.new do
+      attr_accessor :params, :view_context, :request
+
+      def self.helper_method(*methods)
+        @helper_methods = methods
+      end
+
+      def self.helper_methods
+        @helper_methods
+      end
+
+      include GoToParam
+    end
+  end
+
   after { GoToParam.reset_allowed_redirect_prefixes }
 
-  let(:controller) { FakeController.new }
+  let(:controller) { controller_klass.new }
 
   describe "#hidden_go_to_tag" do
     it "becomes a helper method" do
-      expect(FakeController.helper_methods).to include :hidden_go_to_tag
+      expect(controller_klass.helper_methods).to include :hidden_go_to_tag
     end
 
     it "adds a hidden field tag" do
@@ -36,7 +38,7 @@ describe GoToParam do
 
   describe "#hidden_go_to_here_tag" do
     it "becomes a helper method" do
-      expect(FakeController.helper_methods).to include :hidden_go_to_here_tag
+      expect(controller_klass.helper_methods).to include :hidden_go_to_here_tag
     end
 
     it "adds a hidden field tag" do
@@ -61,7 +63,7 @@ describe GoToParam do
 
   describe "#go_to_params" do
     it "becomes a helper method" do
-      expect(FakeController.helper_methods).to include :go_to_params
+      expect(controller_klass.helper_methods).to include :go_to_params
     end
 
     it "includes the go_to parameter" do
@@ -79,7 +81,7 @@ describe GoToParam do
 
   describe "#go_to_here_params" do
     it "becomes a helper method" do
-      expect(FakeController.helper_methods).to include :go_to_here_params
+      expect(controller_klass.helper_methods).to include :go_to_here_params
     end
 
     it "gets the request path as the go_to parameter" do
@@ -121,7 +123,7 @@ describe GoToParam do
 
   describe "#go_to_path" do
     it "becomes a helper method" do
-      expect(FakeController.helper_methods).to include :go_to_path
+      expect(controller_klass.helper_methods).to include :go_to_path
     end
 
     it "is the go_to parameter value" do
@@ -149,7 +151,7 @@ describe GoToParam do
 
   describe "#go_to_path_or" do
     it "becomes a helper method" do
-      expect(FakeController.helper_methods).to include :go_to_path_or
+      expect(controller_klass.helper_methods).to include :go_to_path_or
     end
 
     it "is the go_to parameter value" do
