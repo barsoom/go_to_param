@@ -35,7 +35,7 @@ module GoToParam
   end
 
   def go_to_here_params(additional_query_params = {})
-    path = go_to_here_path(additional_query_params)
+    path = go_to_here_path(**additional_query_params)
 
     if path
       { go_to: path }
