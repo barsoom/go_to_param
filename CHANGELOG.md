@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3
+
+- Force MFA for privileged Rubygems actions.
+
 ## 1.1.2
 
 - Fix keyword parameter warning. Thanks to @olleolleolle!
