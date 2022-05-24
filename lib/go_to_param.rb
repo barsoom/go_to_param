@@ -23,11 +23,11 @@ module GoToParam
   end
 
   def hidden_go_to_tag
-    view_context.hidden_field_tag :go_to, go_to_path
+    view_context.hidden_field_tag :go_to, go_to_path, id: nil
   end
 
   def hidden_go_to_here_tag(additional_query_params = {})
-    view_context.hidden_field_tag :go_to, go_to_here_params(additional_query_params)[:go_to]
+    view_context.hidden_field_tag :go_to, go_to_here_params(additional_query_params)[:go_to], id: nil
   end
 
   def go_to_params(other_params = {})

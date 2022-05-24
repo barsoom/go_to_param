@@ -31,7 +31,7 @@ describe GoToParam do
       view = double
       controller.view_context = view
 
-      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example")
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example", id: nil)
       controller.hidden_go_to_tag
     end
   end
@@ -46,7 +46,7 @@ describe GoToParam do
       view = double
       controller.view_context = view
 
-      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example")
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example", id: nil)
       controller.hidden_go_to_here_tag
     end
 
@@ -56,7 +56,7 @@ describe GoToParam do
       view = double
       controller.view_context = view
 
-      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example?a=1&b=1+2")
+      expect(view).to receive(:hidden_field_tag).with(:go_to, "/example?a=1&b=1+2", id: nil)
       controller.hidden_go_to_here_tag(b: "1 2")
     end
   end
