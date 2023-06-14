@@ -1,6 +1,6 @@
 require_relative "../lib/go_to_param"
 
-describe GoToParam do
+RSpec.describe GoToParam do
   let(:controller_klass) do
     Class.new do
       attr_accessor :params, :view_context, :request
