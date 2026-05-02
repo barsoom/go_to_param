@@ -62,7 +62,13 @@ module GoToParam
   private
 
   def matches_allowed_redirect_prefixes?
-    GoToParam.allowed_redirect_prefixes.any? { |prefix| go_to_param_value.start_with?(prefix) }
+    value = go_to_param_value
+
+    # Disallow protocol-relative "//evil.com".
+    # Also account for browsers normalizing `\` to `/`: https://github.com/advisories/GHSA-mqqf-5wvp-8fh8
+    return false if value.start_with?("//", "/\\", "\\/", "\\\\")
+
+    GoToParam.allowed_redirect_prefixes.any? { |prefix| value.start_with?(prefix) }
   end
 
   def go_to_here_path(anchor: nil, **additional_query_params)

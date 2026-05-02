@@ -136,6 +136,33 @@ RSpec.describe GoToParam do
       expect(controller.go_to_path).to be_nil
     end
 
+    it "is nil for protocol-relative URLs (//evil.com)" do
+      controller.params = { go_to: "//evil.com", id: "1" }
+      expect(controller.go_to_path).to be_nil
+    end
+
+    it "is nil for backslash bypass variants (/\\evil.com)" do
+      controller.params = { go_to: "/\\evil.com", id: "1" }
+      expect(controller.go_to_path).to be_nil
+    end
+
+    it "is nil for double-backslash variants (\\\\evil.com), even under a permissive allowlist" do
+      GoToParam.allow_redirect_prefix("\\")
+      controller.params = { go_to: "\\\\evil.com", id: "1" }
+      expect(controller.go_to_path).to be_nil
+    end
+
+    it "is nil for backslash-then-slash variants (\\/evil.com), even under a permissive allowlist" do
+      GoToParam.allow_redirect_prefix("\\")
+      controller.params = { go_to: "\\/evil.com", id: "1" }
+      expect(controller.go_to_path).to be_nil
+    end
+
+    it "is the bare root path when given /" do
+      controller.params = { go_to: "/", id: "1" }
+      expect(controller.go_to_path).to eq("/")
+    end
+
     it "is nil when given a hash" do
       controller.params = { go_to: { evil: "true" }, id: "1" }
       expect(controller.go_to_path).to be_nil
