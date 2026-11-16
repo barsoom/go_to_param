@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "../lib/go_to_param"
 
 RSpec.describe GoToParam do
@@ -109,7 +111,7 @@ RSpec.describe GoToParam do
     end
 
     it "makes sure the go_to path is valid UTF-8" do
-      weird_path = "\xE0\x80\x80weird\330stuff".force_encoding("ASCII-8BIT")
+      weird_path = "\xE0\x80\x80weird\330stuff".b
       replacement = "\uFFFD"  # The Unicode "Replacement Character".
 
       controller.request = double(get?: true, fullpath: weird_path)
